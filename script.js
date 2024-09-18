@@ -76,6 +76,38 @@ const LearnerSubmissions = [
   }
 ];
 
-function getLearnerData(courseInfo, assignmentGroup, learnerSubmission){
-  forEach()
+
+// Check if the assignment group belongs to the couse.
+function isValidCourseAssignment(CourseInfo,AssignmentGroup) {
+  if(CourseInfo.id === AssignmentGroup.course_id){
+    return true 
+  }else{
+    return false
+  }
 }
+
+// console.log(isValidCourseAssignment)  //Testing
+
+//Check if the learner's submission is valid.
+function isValidSubmissions(submission, assignment) {
+  const score = submission.submission.score;
+  const pointsPossible = assignment.points_possible;
+
+  if (pointsPossible === 0 || typeof score !== "number" || isNaN(score)){
+    return false;
+  }else {
+    return true;
+  }
+}
+// console.log(isValidCourseAssignment) //Testing
+
+// Calculate the weigth everage of a learner's score.
+function calculateWeightedAverage(learnerData){
+  return (learnerData.totalScore / learnerData.totalweigth) *100;
+}
+console.log(calculateWeightedAverage);
+
+
+// function getLearnerData(courseInfo, assignmentGroup, learnerSubmission){
+//   forEach()
+// }
