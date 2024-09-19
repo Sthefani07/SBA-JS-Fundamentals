@@ -140,13 +140,14 @@ if(new Date(submission.submission.submitted_at) > new Date(assignment.due_at)){
       learnerData[learnerID] = {
         id: learnerID,
         totalScore: 0,
-        totalweigth: 0,
+        totalWeigth: 0,
       };
     }
 
     const score = submission.submission.score;
     const pointsPossible = assignment.points_possible;
-    learnerData[learnerID].totalScore += pointsPossible;
+    learnerData[learnerID].totalScore += (score / pointsPossible) * pointsPossible;
+    learnerData[learnerID].totalWeigth += pointsPossible;
     assignmentScore[assignmentID] = (score / pointsPossible) * 100
   }
 }
