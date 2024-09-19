@@ -78,7 +78,7 @@ const LearnerSubmissions = [
 
 
 // Check if the assignment group belongs to the couse.
-function isValidCourseAssignment(CourseInfo,AssignmentGroup) {
+function isValidCourseAssignmentGroup(CourseInfo,AssignmentGroup) {
   if(CourseInfo.id === AssignmentGroup.course_id){
     return true 
   }else{
@@ -89,7 +89,7 @@ function isValidCourseAssignment(CourseInfo,AssignmentGroup) {
 // console.log(isValidCourseAssignment)  //Testing
 
 //Check if the learner's submission is valid.
-function isValidSubmissions(submission, assignment) {
+function isValidSubmission(submission, assignment) {
   const score = submission.submission.score;
   const pointsPossible = assignment.points_possible;
 
@@ -105,9 +105,16 @@ function isValidSubmissions(submission, assignment) {
 function calculateWeightedAverage(learnerData){
   return (learnerData.totalScore / learnerData.totalweigth) *100;
 }
-console.log(calculateWeightedAverage);
+// console.log(calculateWeightedAverage); //Testing
 
 
-// function getLearnerData(courseInfo, assignmentGroup, learnerSubmission){
-//   forEach()
-// }
+function getLearnerData(courseInfo, assignmentGroup, learnerSubmission){
+}if(!isValidCourseAssignmentGroup(CourseInfo, AssignmentGroup)){
+  throw new Error(`Invalid: Assigment does not belong to the couse.`);
+}
+// console.log(getLearnerData) //testing
+
+const assignments = AssignmentGroup.assignments;
+const assignmentScore = {};
+const learnerData = {};
+
