@@ -108,6 +108,7 @@ function calculateWeightedAverage(learnerData){
 // console.log(calculateWeightedAverage); //Testing
 
 
+
 function processLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
   if (!isValidCourseAssignmentGroup(CourseInfo, AssignmentGroup)){
     throw new Error("Invalid: Assigment does not belong to the couse.");
@@ -126,8 +127,13 @@ for(const submission of LearnerSubmissions){
   const assignment = assignments.find((a) => a.id === assignmentID);
 
   if(!assignment || new Date(submission.submission.submitted_at) > new Date(assignment.due_at)){
-    return;
+    continue;
   }
+
+//Apply late penalty if applicable
+if(new Date(submission.submission.submitted_at) > new Date(assignment.due_at)){
+  points *= 0.9; // Deduct 10% of the possible points
+}
 
   if (isValidSubmission(submission, assignment)){
     if (!learnerData[learnerID]){
@@ -148,3 +154,34 @@ return {learnerData, assignmentScore};
 }
 
 
+function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
+  try{
+    const { learnerData, assignmentScore} = processLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+
+    const results = [];
+
+    for (const learnerID in learnerData){
+      const learner = learnerData[learnerID];
+      const weigthedAverage = calculateWeightedAverage(learner);
+
+      const learnerResult = {
+        id: learner.id,
+        avg: weigthedAverage,
+      };
+
+      for (const assignmentID in assignmentScore){
+        learnerResult[assignmentID] = assignmentScore[assignmentID];
+      }
+
+      results.push(learnerResult);
+    }
+
+    return results;
+
+  } catch(error){
+  console.error(error.message);
+  }
+}
+
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+console.log(result);
