@@ -116,15 +116,15 @@ function processLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
 
 // console.log(processLearnerDataLearnerData) //testing
 
-const assignments = AssignmentGroup.assignments;
-const assignmentScore = {};
-const learnerData = {};
+let assignments = AssignmentGroup.assignments;
+let assignmentScore = {};
+let learnerData = {};
 
 
-for(const submission of LearnerSubmissions){
-  const learnerID = submission.learner_id;
-  const assignmentID = submission.assignment_id;
-  const assignment = assignments.find((a) => a.id === assignmentID);
+for(let submission of LearnerSubmissions){
+  let learnerID = submission.learner_id;
+  let assignmentID = submission.assignment_id;
+  let assignment = assignments.find((a) => a.id === assignmentID);
 
   if(!assignment || new Date(submission.submission.submitted_at) > new Date(assignment.due_at)){
     continue;
@@ -170,9 +170,9 @@ function getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions){
         avg: weigthedAverage,
       };
 
-      for (const assignmentID in assignmentScore){
+      Object.keys(assignmentScore).forEach((assignmentID) => {
         learnerResult[assignmentID] = assignmentScore[assignmentID];
-      }
+      })
 
       results.push(learnerResult);
     }
